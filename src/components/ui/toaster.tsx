@@ -3,7 +3,7 @@ import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 365 * 24 * 60 * 60 * 1000 // ~1 year, no practical auto-remove
+const TOAST_REMOVE_DELAY = 5000 // 5 seconds auto-remove
 
 type ToasterToast = {
   id: string;
@@ -123,32 +123,43 @@ function Toaster() {
   const { toasts, dismiss } = useToast()
 
   return (
-    <div className={cn(
-      "fixed right-4 top-4 z-[100] flex flex-col-reverse gap-2 p-4 sm:flex-col sm:flex-col-reverse md:flex-row md:flex-row-reverse",
-      "sm:top-8 sm:right-8 md:top-10 md:right-10 lg:top-12 lg:right-12"
-    )}>
-      {toasts.map(function ({
+    <div 
+      className={cn(
+        "fixed right-4 top-4 z-[100] flex flex-col-reverse gap-2 p-4 sm:flex-col sm:flex-col-reverse md:flex-row md:flex-row-reverse",
+        "sm:top-8 sm:right-8 md:top-10 md:right-10 lg:top-12 lg:right-12"
+      )} 
+      onClick={(e) => {
+        // Click outside all toasts to dismiss
+        if (!(e.target as Element).closest('[class*=group]')) dismiss();
+      }}
+
+    >
+{toasts.map(function ({
         id,
         title,
         description,
         action,
         variant,
-        ...props
+        open,
+        onOpenChange,
+        className
       }) {
         return (
-          <ToasterToast 
+            <ToasterToast 
             key={id} 
-            id={id} 
+            id={id}
             variant={variant}
             className={cn(
               "group pointer-events-auto relative w-80 overflow-hidden rounded-lg border p-4 pr-8 shadow-lg transition-[margin] duration-200 [&>svg~*]:pl-7",
-              variant === "destructive" ? "destructive" : "",
-              props.className,
-              props.open && "animate-in slide-in-from-top-2 md:slide-in-from-right-2",
-              props.open === false && "animate-out slide-out-to-top-2 md:slide-out-to-right-2"
+              variant === "destructive" ? "destructive bg-destructive/10 border-destructive/50" : "",
+              className ?? "",
+              open && "animate-in slide-in-from-top-2 md:slide-in-from-right-2",
+              open === false && "animate-out slide-out-to-top-2 md:slide-out-to-right-2"
             )} 
-            {...props}
+            open={open}
+            onOpenChange={onOpenChange}
           >
+
             <div className={cn(
               "flex flex-col gap-1", variant === "destructive" ? "text-destructive-foreground text-red-400 font-semibold" : ""
             )}>
@@ -156,24 +167,12 @@ function Toaster() {
               {description && <div className="text-sm opacity-90">{description}</div>}
             </div>
             {action}
-            <button 
-              type="button" 
-              className="
-                absolute right-1 top-1 rounded-lg p-1.5 text-destructive/60 opacity-0 transition-opacity hover:text-destructive 
-group-hover:opacity-100 md:group-hover:transition-none md:group-[.destructive]:text-red-50 md:group-[.destructive]:hover:text-red-50 md:group-[.destructive]:hover:bg-red-600 pointer-events-auto z-10
-                group-[.destructive]:text-red-50 group-[.destructive]:hover:text-red-50 group-[.destructive]:hover:bg-red-600
-              "
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                dismiss(id)
-              }}
-            >
-              ×
-            </button>
+
+
           </ToasterToast>
         )
       })}
+
     </div>
   )
 }

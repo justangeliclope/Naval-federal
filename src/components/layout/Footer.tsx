@@ -95,11 +95,11 @@ export function Footer() {
           <Link to="/" className="flex items-center space-x-2">
             <Globe className="h-5 w-5" />
             <span className="font-bold text-sm tracking-wide">
-              Federal Navy credit union
+              FEDERAL NAVY
             </span>
           </Link>
           <p className="text-gray-400 text-sm">
-            &copy; 2026 Federal Navy Credit Union. All Rights Reserved.
+&copy; 2026 FEDERAL NAVY. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -25,7 +25,17 @@ export default {
           700: '#1e3a8a',
           800: '#1e293b',
           900: '#0f172a',
+          DEFAULT: '#0A3D62',
+          dark: '#082F4D',
+          light: '#0E4B7A',
         },
+        orange: {
+          DEFAULT: '#E87722',
+          dark: '#D06A1F',
+          light: '#F08A3D',
+        },
+        cream: '#FFF8E7',
+        link: '#0073B9',
         blue: {
           400: '#60a5fa',
           500: '#3b82f6',

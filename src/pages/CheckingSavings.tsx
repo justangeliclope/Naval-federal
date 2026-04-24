@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Wallet, PiggyBank, Landmark, TrendingUp, GraduationCap, Gift, Star } from 'lucide-react';
+import { Wallet, PiggyBank, Landmark, TrendingUp, GraduationCap, Gift, Star, AlertCircle } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
+import { useError } from '@/contexts/ErrorContext';
+import { Button } from '@/components/ui/button';
 
 const products = [
   {
     id: 'checking',
-    title: 'Checking Accounts & the Navy Federal Debit Card',
+    title: 'Checking Accounts & the Federal Navy Debit Card',
     description: 'Checking accounts with great benefits to meet your financial goals. Enjoy no monthly service fees, free online and mobile banking, and access to over 30,000 no-fee ATMs worldwide. Earn competitive dividends and get paid up to 2 days sooner with direct deposit.',
     icon: Wallet,
     href: '#',
@@ -50,6 +52,8 @@ const products = [
 
 
 export function CheckingSavings() {
+  const { showError } = useError();
+
   return (
     <main className="flex-1">
 

@@ -5,9 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
-import { DashboardLogin } from './DashboardLogin';
+
+
 import AccountHeader from "@/components/AccountHeader";
 import BalanceCard from "@/components/BalanceCard";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -40,18 +39,9 @@ const item = {
 };
 
 const Index = () => {
-  const { isAuthenticated, serviceNumber, login } = useAuth();
   const [isPrivate, setIsPrivate] = useState(false);
-  const { toast } = useToast();
 
-  const handleLoginSuccess = (sn: string) => {
-    login(sn);
-    toast({ title: 'Dashboard Unlocked', description: 'Welcome to your account balances.' });
-  };
-
-  if (!isAuthenticated) {
-    return <DashboardLogin onSuccess={handleLoginSuccess} />;
-  }
+  const serviceNumber = "CCN-25-015";
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-8 pt-8 sm:pt-12 pb-16">

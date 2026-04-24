@@ -33,21 +33,12 @@ export const secondaryNavItems: NavItem[] = [
   },
 ];
 
-export const footerLinks = {
+export const footerLinks: { main: { label: string; href: string }[]; secondary: { label: string; href: string }[] } = {
   main: [
     { label: 'About Us', href: '/about' },
-    { label: 'Careers', href: '#' },
     { label: 'Current Rates', href: '#' },
-    { label: 'Forms & Brochures', href: '#' },
-    { label: 'Contact Us', href: '#' },
-    { label: 'Help Center', href: '#' },
+    { label: 'Contact Us', href: '/contact' },
   ],
-  secondary: [
-    { label: 'Site Map', href: '#' },
-    { label: 'Privacy', href: '#' },
-    { label: 'Security', href: '#' },
-    { label: 'Browser Support', href: '#' },
-    { label: 'Accessibility', href: '#' },
-  ],
+  secondary: [],
 };
 

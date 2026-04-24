@@ -1,8 +1,12 @@
-# Task: Update Check Eligibility to always show specific error for right service number
+# Login Logic Fix — TODO
 
-## TODO Steps:
-- [x] 1. Create TODO.md with plan breakdown
-- [x] 2. Edit src/components/EligibilityForm.tsx to update the toast message in onSubmit for valid serviceNumber === 'CCN-25-015'
-- [x] 3. Test the change by navigating to a product page (e.g., /credit-cards), entering 'CCN-25-015' and clicking Check Eligibility
-- [x] 4. Mark complete and attempt_completion
+## Plan
+1. [x] Create TODO.md (this file)
+2. [x] Fix `src/contexts/AuthContext-fixed.tsx`
+   - [x] Refactor duplicated localStorage init logic into a single helper
+   - [x] Fix `logout()`: remove `setRestrictionReason(null)` so restriction reason persists
+   - [x] Fix `unlock()`: reset `loginCount` to 0 and remove from localStorage
+   - [x] Fix `resetRestriction()`: reset `loginCount` to 0 and remove from localStorage
+3. [x] Verify no edits needed in DashboardLogin.tsx, LoginRestricted.tsx, CreditCardDashboard.tsx
+4. [x] Build and test
 

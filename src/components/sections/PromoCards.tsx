@@ -15,7 +15,7 @@ export function PromoCards() {
           transition={{ duration: 0.5 }}
           className="text-2xl lg:text-3xl font-bold text-white mb-8"
         >
-          See what&apos;s new from Navy Federal
+          See what's new from Federal Navy
         </motion.h2>
 
         {/* Promo Cards Grid */}

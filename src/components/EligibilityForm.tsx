@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
+import { useError } from '@/contexts/ErrorContext';
 import { useState } from 'react';
 
 const schema = z.object({
@@ -19,7 +19,7 @@ interface EligibilityFormProps {
 }
 
 export function EligibilityForm({ product }: EligibilityFormProps) {
-  const { toast } = useToast();
+  const { showError } = useError();
   const [loading, setLoading] = useState(false);
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -28,23 +28,11 @@ export function EligibilityForm({ product }: EligibilityFormProps) {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+const onSubmit = async () => {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     
-    if (data.serviceNumber === 'CCN-25-015') {
-      toast({
-        title: 'Error',
-        description: 'Contact Your Admin Supervisor, Eligibility not available in your Region.',
-        variant: 'destructive',
-      });
-    } else {
-      toast({
-        title: 'Service number not found',
-        description: `Service Number ${data.serviceNumber} not found.`,
-        variant: 'destructive',
-      });
-    }
+    showError("eligibility not found");
     
     setLoading(false);
   };

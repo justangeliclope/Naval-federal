@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/useAuth';
+
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,18 +7,7 @@ import { TableTimeline } from '@/components/ui/TableTimeline';
 import { TRANSACTIONS } from '../data/transactions';
 
 export default function PaymentHistory() {
-  const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
-          <p>Log in to view payment history.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-8 pt-8 pb-16">

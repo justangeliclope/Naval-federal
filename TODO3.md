@@ -1,1 +1,6 @@
-# TODO: Fix toast X close&#10;&#10;1. [x] Create TODO3.md&#10;2. [ ] Fix payment error message typo&#10;3. [ ] Confirm X closes toast (uses dismiss(id))&#10;4. [ ] Complete
+# TODO: Fix toast X close
+
+1. [x] Create TODO3.md
+2. [x] Fix payment error message typo (polished messages, removed auto-dismiss conflict)
+3. [x] Confirm X closes toast (uses dismiss(id), manual close reliable)
+4. [x] Complete

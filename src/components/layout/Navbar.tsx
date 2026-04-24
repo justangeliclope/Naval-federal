@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -10,32 +11,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { mainNavItems, secondaryNavItems } from '@/data/navigation';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useAuth } from '@/hooks/useAuth';
 
-function AuthButton({ onClick }: { onClick?: () => void }) {
-  const { isAuthenticated, logout } = useAuth();
-
-  if (isAuthenticated) {
-    return (
-      <button 
-        onClick={(e) => {
-          e.preventDefault();
-          logout();
-          onClick?.();
-        }}
-        className="bg-orange hover:bg-orange-dark text-white text-sm font-semibold px-4 py-2 rounded-md transition-colors"
-      >
-        Sign Out
-      </button>
-    );
-  }
-
-  return (
-    <Link to="/login" className="bg-orange hover:bg-orange-dark text-white text-sm font-semibold px-4 py-2 rounded-md transition-colors flex items-center">
-      Sign In
-    </Link>
-  );
-}
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,7 +25,7 @@ export function Navbar() {
             <Link to="/" className="flex items-center space-x-2">
               <Globe className="h-6 w-6" />
               <span className="font-bold text-lg tracking-wide hidden sm:inline">
-                Federal Navy credit union
+FEDERAL NAVY
               </span>
               <span className="font-bold text-lg tracking-wide sm:hidden">
                 NFCU
@@ -78,14 +54,14 @@ export function Navbar() {
               </Link>
 
               <Link 
-                to="#" 
+to="/credit-cards#compare" 
                 className="hidden md:flex items-center text-sm hover:text-orange transition-colors"
               >
                 <MapPin className="h-4 w-4 mr-1" />
                 Branches & ATMs
               </Link>
               
-              <AuthButton />
+
 
               <button
                 className="lg:hidden p-2 -mr-1"
@@ -156,7 +132,15 @@ export function Navbar() {
                 <Wallet className="h-4 w-4 mr-2" />
                 View Balance
               </Link>
-              <AuthButton onClick={() => setMobileMenuOpen(false)} />
+              <Link 
+to="/credit-cards#compare" 
+                className="flex items-center py-2 text-navy"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <MapPin className="h-4 w-4 mr-2" />
+                Branches & ATMs
+              </Link>
+
             </div>
           </motion.div>
         )}

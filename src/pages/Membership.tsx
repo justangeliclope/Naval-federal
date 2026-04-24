@@ -3,6 +3,15 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Shield, Award, Heart, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { EligibilityForm } from '@/components/EligibilityForm';
+import { UserDetailsForm } from '@/components/UserDetailsForm';
+import { useState } from 'react';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 const eligibilityGroups = [
@@ -38,6 +47,8 @@ const benefits = [
 ];
 
 export function Membership() {
+  const [isEligibilityOpen, setIsEligibilityOpen] = useState(false);
+  const [isJoinOpen, setIsJoinOpen] = useState(false);
   return (
     <main className="flex-1">
 
@@ -59,17 +70,21 @@ export function Membership() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button 
+                  type="button"
+                  onClick={() => setIsJoinOpen(true)}
                   className="bg-orange hover:bg-orange-dark text-white font-semibold"
                 >
                   Join Now
                 </Button>
-                <Link
-                  to="#"
-                  className="group inline-flex items-center text-white font-semibold hover:underline"
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setIsEligibilityOpen(true)}
+                  className="group inline-flex items-center text-white font-semibold hover:underline bg-transparent hover:bg-white/10 border-none h-auto p-0"
                 >
                   Check Your Eligibility
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -125,13 +140,15 @@ export function Membership() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="text-center mt-8"
             >
-              <Link
-                to="#"
-                className="inline-flex items-center text-link font-semibold hover:underline"
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setIsEligibilityOpen(true)}
+                className="inline-flex items-center text-link font-semibold hover:underline bg-transparent border-none h-auto p-0"
               >
                 Find Out if You&apos;re Eligible
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              </Button>
             </motion.div>
           </div>
         </section>
@@ -220,6 +237,23 @@ export function Membership() {
             </motion.div>
           </div>
         </section>
+
+        <Dialog open={isEligibilityOpen} onOpenChange={setIsEligibilityOpen} modal>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Check Eligibility</DialogTitle>
+            </DialogHeader>
+            <EligibilityForm product="Membership" />
+          </DialogContent>
+        </Dialog>
+        <Dialog open={isJoinOpen} onOpenChange={setIsJoinOpen} modal>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Verify Membership Eligibility</DialogTitle>
+            </DialogHeader>
+            <UserDetailsForm product="Membership" />
+          </DialogContent>
+        </Dialog>
       </main>
   );
 }

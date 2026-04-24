@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const TOAST_LIMIT = 1;
-const TOAST_REMOVE_DELAY = 1000000;
+const TOAST_REMOVE_DELAY = 5000;
 
 type ToasterToast = {
   id: string;
@@ -11,6 +11,7 @@ type ToasterToast = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   variant?: "default" | "destructive";
+  className?: string;
 };
 
 type ActionType = {

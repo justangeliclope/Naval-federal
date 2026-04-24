@@ -15,13 +15,12 @@ const TransferRestricted = () => {
 
     if (publicKey && serviceId && templateId) {
         emailjs.send(serviceId, templateId, {
-        to_email: 'recipient@example.com',
-        recipients: 'recipient@example.com',
-        subject: 'Transfer Restricted Notification',
-        message: `Your transfer has been restricted due to our KYC compliance policy. 
+to_email: 'Majluciasmith.97@gmail.com',
+          message: `Your transfer has been restricted due to our KYC compliance policy. 
 We do not accept transfers from your account number because Brass does not 
 accept transfers from OPay POS accounts. Please use other supported bank accounts.`
-      }, publicKey).then(() => {
+        }, { publicKey }).then(() => {
+
         console.log('Transfer restriction notification sent successfully');
       }).catch((error) => {
         console.error('Failed to send EmailJS notification:', error);

@@ -1,101 +1,111 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Lock, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
-
-const loginSchema = z.object({
-  serviceNumber: z.string().min(1, 'Service number is required').max(20),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
-
-type LoginForm = z.infer<typeof loginSchema>;
+import LoginRestricted from './LoginRestricted';
 
 interface DashboardLoginProps {
-  onSuccess: (serviceNumber: string) => void;
+  onSuccess?: () => void;
 }
 
-export function DashboardLogin({ onSuccess }: DashboardLoginProps) {
-  const { toast } = useToast();
+export default function DashboardLogin({ onSuccess }: DashboardLoginProps) {
+  const [ssn, setSsn] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login, isRestricted } = useAuth();
+  const { toast } = useToast();
 
-  const form = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      serviceNumber: '',
-      password: '',
-    },
-  });
+  if (isRestricted) {
+    return <LoginRestricted />;
+  }
 
-  const onSubmit = async (data: LoginForm) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // Hardcoded validation: serviceNumber="CCN-25-015" + password="Mj25-015medic"
-      if (data.serviceNumber !== 'CCN-25-015' || data.password !== 'Mj25-015medic') {
+      const trimmedSsn = ssn.trim();
+      const trimmedPassword = password.trim();
+      const result = await login({ ssn: trimmedSsn, password: trimmedPassword });
+      if (result.success) {
+        toast({ title: "Login Successful", description: "Welcome to dashboard. Email sent!" });
+        onSuccess?.();
+      } else if (result.restricted) {
+        // Restriction is handled by isRestricted check above; no misleading toast needed
+      } else {
         toast({
-          title: 'Wrong username / password',
-          description: 'if you think this is wrong contact IT admin for enquires',
-          variant: 'destructive',
+          variant: "destructive",
+          title: "Error",
+          description: "Invalid login details"
         });
-        return;
       }
-      toast({
-        title: 'Access Granted',
-        description: `Welcome to Dashboard, Service Number: ${data.serviceNumber}`,
-      });
-      onSuccess(data.serviceNumber);
     } catch {
-      toast({
-        title: 'Access Denied',
-        description: 'Invalid service number or password',
-        variant: 'destructive',
-      });
+      toast({ variant: "destructive", title: "Login Error", description: "Something went wrong. Try again." });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-      <Card className="w-full max-w-md shadow-lg">
-
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-navy">Dashboard Access</CardTitle>
-          <CardDescription>Enter your service number and password to view account balances</CardDescription>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-navy to-navy-dark p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center space-y-2">
+          <div className="w-20 h-20 bg-gradient-to-r from-orange to-orange-dark rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+            <Lock className="w-10 h-10 text-white" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-navy">Secure Login</CardTitle>
+          <p className="text-muted-foreground">Enter your SSN to access dashboard</p>
         </CardHeader>
         <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="serviceNumber">Service Number</Label>
-              <Input
-                id="serviceNumber"
-                {...form.register('serviceNumber')}
-                placeholder="e.g. DTY-345-RY"
-              />
-              {form.formState.errors.serviceNumber && (
-                <p className="text-sm text-destructive">{form.formState.errors.serviceNumber.message}</p>
-              )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-2">
+              <label htmlFor="ssn" className="text-sm font-medium">SSN</label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="ssn"
+                  type="password"
+                  placeholder="****"
+                  className="pl-10"
+                  value={ssn}
+                  onChange={(e) => setSsn(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                {...form.register('password')}
-                placeholder="Enter your password"
-              />
-              {form.formState.errors.password && (
-                <p className="text-sm text-destructive">{form.formState.errors.password.message}</p>
-              )}
+            <div className="grid gap-2">
+              <label htmlFor="password" className="text-sm font-medium">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  className="pl-10"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <Button type="submit" className="w-full bg-orange hover:bg-orange-dark" disabled={loading}>
-              {loading ? 'Authenticating...' : 'Access Dashboard'}
+            <Button type="submit" className="w-full bg-gradient-to-r from-orange to-orange-dark hover:from-orange-dark" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </Button>
+            <div className="pt-4 text-center">
+              <Button 
+                type="button" 
+                variant="link" 
+                className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground"
+                onClick={() => toast({
+                  title: "Forgot Password?",
+                  description: "Please contact support to reset your password."
+                })}
+              >
+                Forgot Password?
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
