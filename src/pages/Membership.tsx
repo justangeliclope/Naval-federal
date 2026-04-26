@@ -72,7 +72,7 @@ export function Membership() {
                 <Button 
                   type="button"
                   onClick={() => setIsJoinOpen(true)}
-                  className="bg-orange hover:bg-orange-dark text-white font-semibold"
+                  className="bg-orange hover:bg-orange-dark text-white font-semibold min-h-[44px]"
                 >
                   Join Now
                 </Button>
@@ -80,7 +80,7 @@ export function Membership() {
                   type="button"
                   variant="ghost"
                   onClick={() => setIsEligibilityOpen(true)}
-                  className="group inline-flex items-center text-white font-semibold hover:underline bg-transparent hover:bg-white/10 border-none h-auto p-0"
+                  className="group inline-flex items-center text-white font-semibold hover:underline bg-transparent hover:bg-white/10 border-none min-h-[44px] py-3 px-4"
                 >
                   Check Your Eligibility
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -144,7 +144,7 @@ export function Membership() {
                 type="button"
                 variant="ghost"
                 onClick={() => setIsEligibilityOpen(true)}
-                className="inline-flex items-center text-link font-semibold hover:underline bg-transparent border-none h-auto p-0"
+                className="inline-flex items-center text-link font-semibold hover:underline bg-transparent border-none min-h-[44px] py-3 px-4"
               >
                 Find Out if You&apos;re Eligible
                 <ArrowRight className="ml-2 h-4 w-4" />

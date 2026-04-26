@@ -38,12 +38,12 @@ export function ErrorDialog({
         </DialogHeader>
         <DialogFooter>
           {onRetry && (
-            <Button onClick={onRetry} variant="default">
+            <Button onClick={onRetry} variant="default" className="min-h-[44px]">
               Retry
             </Button>
           )}
           <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline" className="min-h-[44px]">Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

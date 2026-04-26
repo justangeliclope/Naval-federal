@@ -5,9 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TableTimeline } from '@/components/ui/TableTimeline';
 
 import { TRANSACTIONS } from '../data/transactions';
+import { useAuth } from '@/hooks/useAuth';
+import DashboardLogin from './DashboardLogin';
+import LoginRestricted from './LoginRestricted';
 
 export default function PaymentHistory() {
+  const { isAuthenticated, isRestricted } = useAuth();
 
+  if (!isAuthenticated) {
+    if (isRestricted) {
+      return <LoginRestricted />;
+    }
+    return <DashboardLogin />;
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-8 pt-8 pb-16">

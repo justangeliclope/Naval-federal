@@ -1,12 +1,8 @@
-# Login Logic Fix — TODO
+# Mobile Button Clickability & Eligibility Fix - TODO
 
-## Plan
-1. [x] Create TODO.md (this file)
-2. [x] Fix `src/contexts/AuthContext-fixed.tsx`
-   - [x] Refactor duplicated localStorage init logic into a single helper
-   - [x] Fix `logout()`: remove `setRestrictionReason(null)` so restriction reason persists
-   - [x] Fix `unlock()`: reset `loginCount` to 0 and remove from localStorage
-   - [x] Fix `resetRestriction()`: reset `loginCount` to 0 and remove from localStorage
-3. [x] Verify no edits needed in DashboardLogin.tsx, LoginRestricted.tsx, CreditCardDashboard.tsx
-4. [x] Build and test
+- [x] 1. Fix `src/components/ui/button.tsx` — add `min-h-[44px]` to base class for minimum mobile touch target
+- [x] 2. Fix `src/components/EligibilityForm.tsx` — ensure submit button is fully clickable on mobile
+- [x] 3. Fix `src/pages/Membership.tsx` — add proper padding/min-height to ghost eligibility trigger buttons
+- [x] 4. Fix `src/components/ui/error-dialog.tsx` — ensure dialog action buttons are mobile-friendly
+- [x] 5. Run build to verify no errors
 
