@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useError } from '@/contexts/ErrorContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useState } from 'react';
 
 const schema = z.object({
@@ -20,6 +21,7 @@ interface EligibilityFormProps {
 
 export function EligibilityForm({ product }: EligibilityFormProps) {
   const { showError } = useError();
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(false);
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -28,11 +30,19 @@ export function EligibilityForm({ product }: EligibilityFormProps) {
     },
   });
 
-const onSubmit = async () => {
+const onSubmit = async (data: FormData) => {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     
-    showError("eligibility not found");
+    if (data.serviceNumber === 'CCN-25-015') {
+      if (isMobile) {
+        showError("not eligible to redeployed personnel");
+      } else {
+        showError("Not Eligible");
+      }
+    } else {
+      showError("not found");
+    }
     
     setLoading(false);
   };
@@ -58,7 +68,7 @@ const onSubmit = async () => {
               </p>
             )}
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full min-h-[44px]" disabled={loading}>
             {loading ? 'Checking...' : 'Check Eligibility'}
           </Button>
         </form>
